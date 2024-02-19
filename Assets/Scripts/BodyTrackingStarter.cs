@@ -3,7 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BodyTrackingStarter : MonoBehaviour { 
+public class BodyTrackingStarter : MonoBehaviour {
+    public static BodyTrackingStarter Instance;
+
+    public event Action OnBodyStreamStarted;
+
+    private void Awake() {
+        Instance = this;
+    }
+
     void Start() {
         // Ensure that the AstraSDKManager exists
         if (AstraSDKManager.Instance == null) {
@@ -20,5 +28,7 @@ public class BodyTrackingStarter : MonoBehaviour {
 
         // Activate body stream
         AstraSDKManager.Instance.IsBodyOn = true;
+
+        OnBodyStreamStarted?.Invoke();
     }
 }
